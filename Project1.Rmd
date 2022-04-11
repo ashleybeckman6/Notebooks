@@ -241,7 +241,7 @@ Dak Prescott threw a franchise record for most touchdowns passes in a single sea
 
 Which begs the question of why did Joe Burrow win? There are many more factors than passing yards, first downs and touchdown/interception ratio that come into play when determining Comeback Player of the Year such as specific details of recovery and player status. Dak Prescott is well known athlete in the league and has made a name for himself, Joe Burrow is only in his second professional season. Following his speedy recovery, he dominated the season, leading the Bengals all the way to Super Bowl LVI. This is one prominent factor because of the significance of history being made and that Joe led his team to the Super Bowl and Dak did not. 
 
-NOTE that the code used in this website can be found here
+Note the code for this dataset can be found here- 
 
 
 
