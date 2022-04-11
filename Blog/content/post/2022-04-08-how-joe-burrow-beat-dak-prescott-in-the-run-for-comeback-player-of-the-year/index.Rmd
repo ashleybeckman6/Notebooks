@@ -1,0 +1,247 @@
+---
+title: 'How Joe Burrow beat Dak Prescott in the run for Comeback Player of the Year  '
+author: Ashley Beckman
+date: '2022-04-08'
+slug: how-joe-burrow-beat-dak-prescott-in-the-run-for-comeback-player-of-the-year
+categories: []
+tags: []
+---
+
+The Comeback Player of the Year race came down to the decision between Cincinnati Bengals quarterback, Joe Burrow, along with Dallas Cowboys quarterback Dak Prescott. It ended in a 28-21 voting result which awarded Joe Burrow the title of Comeback Player of the Year. Both players having undergone season ending injuries last season proceeded to go to rehab in hopes to return to the playing field just months earlier than anticipated. This sudden transition back into returning to play with such high performance rates made this decision very close. 
+
+This begs the question of just how close was Dak Prescott to winning the title of Comeback Player of the Year?
+
+Joe Burrow’s journey begins as a quarterback for the Cincinnati Bengals in the year 2020. Unfortunately for him, Burrow had to undergo knee surgery to repair a torn ACL and MCL during his rookie year. He came back stronger and better than ever, and in only his second professional season, led the Cincinnati Bengals to their first playoff win in over 31 years. On top of this, Burrow led the Bengals to a Super Bowl LVI title appearance, which was their most recent appearance in the past 34 years. 
+
+Dak Prescott was also a well deserving candidate for this award in a plethora of ways. His 2020 season was cut short due to an ankle injury and his career as an athlete was in jeopardy. Prescott was eager to get back on the field, returning to finish the 2021 season, he set his career high with a 68.4% completion percentage and threw for more touchdowns this season than any previous season. Dak, being an experienced player in the league, has a better understanding of the obstacles he needed to overcome after injury, with determination and his previous success with the Cowboys he was a clear candidate for NFL Comeback Player of the Year.  
+
+
+The first question we will ask involves the top 25 QB’s in the NFL specifically aimed toward Passing Yards. Did Burrow or Prescott have more passing yards in the season?
+
+
+```{r message=FALSE, warning=FALSE, echo=FALSE}
+library(tidyverse)
+library(scales)
+```
+```{r message=FALSE, warning=FALSE, echo=FALSE}
+library(waffle)
+library(tidyverse)
+```
+```{r message=FALSE, warning=FALSE, echo=FALSE}
+library(tidyverse)
+library(gt)
+
+```
+```{r message=FALSE, warning=FALSE, echo=FALSE}
+library(tidyverse)
+library(ggalt)
+```
+
+```{r message=FALSE, warning=FALSE, echo=FALSE}
+NFLQBackPlayers <- read_csv("NFLQBack - Sheet1.csv")
+```
+
+
+
+```{r message=FALSE, warning=FALSE, echo=FALSE}
+PassYard <- NFLQBackPlayers %>% 
+arrange(desc(`Pass Yds`))
+```
+
+```{r message=FALSE, warning=FALSE, echo=FALSE}
+ggplot(PassYard, aes(x=`Pass Yds`, weight=`Pass Yds`, fill=Player) ) + 
+  geom_bar(data= PassYard, aes(x=reorder(Player, `Pass Yds`), weight= `Pass Yds`)) +
+  coord_flip()+
+  labs(title="Where do Joe and Dak stand in top25 QBs?", 
+       subtitle="How much do passing yards play a factor ?",
+       x="NFL Quarterbacks",
+       y="Passing Yards", 
+       caption="Source: Sports-Reference.com | By Ashley Beckman", x="Pass Yards", y="Player") + 
+  theme_minimal() + theme(axis.text.x=element_text(angle = 45, vjust = 1, hjust = 1)) + scale_fill_manual("Legend", values = c("Joe Burrow" = "orange", "Dak Prescott" = "dark blue")) +
+  theme(
+    plot.title = element_text(size = 16, face = "bold"),
+    axis.title = element_text(size = 10), 
+    plot.subtitle = element_text(size=12), 
+    panel.grid.minor = element_blank() 
+    )
+```
+
+Joe Burrow recorded more passing yards in the season despite the Bengals offensive line giving up a franchise record of 55 sacks within a single season. Dak only fell slightly more than 150 yards short of Joe this season, so let's see if there is more of a spread between the two QB’s elsewhere. Lets start with first down completions.
+
+```{r message=FALSE, warning=FALSE, echo=FALSE}
+Firsts  <- NFLQBackPlayers %>%
+  select(Player, `1st`) %>% 
+arrange(desc(`1st`))
+```
+```{r message=FALSE, warning=FALSE, echo=FALSE}
+ggplot(Firsts, aes(x=`1st`, weight=`1st`, fill=Player) ) + 
+  geom_bar(data= Firsts, aes(x=reorder(Player, `1st`), weight= `1st`)) +
+   labs(title="Dak threw more 1st down completions in the season", 
+        subtitle="Did this result effect the decision ?",
+       x="Quarterbacks",
+       y="1st Down Completions", 
+       caption="Source: Sports-Reference.com | By Ashley Beckman", x="Pass Yards", y="Player") + 
+  theme_minimal() + theme(axis.text.x=element_text(angle = 45, vjust = 1, hjust = 1)) + scale_fill_manual("Legend", values = c("Joe Burrow" = "orange", "Dak Prescott" = "dark blue")) +
+  theme(
+    plot.title = element_text(size = 16, face = "bold"),
+    axis.title = element_text(size = 10), 
+    plot.subtitle = element_text(size=12), 
+    panel.grid.minor = element_blank() 
+  )
+```
+
+Dak completed 227 1st downs in comparison to Joe’s 202. This margin is small as well so lets keep going….How much does distance factor in? 
+
+```{r message=FALSE, warning=FALSE, echo=FALSE}
+Twentyplus  <- NFLQBackPlayers %>%
+  select(Player, `20+`) %>% 
+arrange(desc(`20+`))
+```
+
+```{r message=FALSE, warning=FALSE, echo=FALSE}
+ggplot(Twentyplus, aes(x=`20+`, weight=`20+`, fill=Player) ) + 
+  geom_bar(data= Twentyplus, aes(x=reorder(Player, `20+`), weight= `20+`)) +
+   labs(title="Joe Burrow proves himself worthy of the title", 
+       subtitle="Dak Prescott falling further down the line",
+       x="Quarterbacks",
+       y="20+ yard Completions", 
+       caption="Source: Sports-Reference.com | By Ashley Beckman", x="20+ yards", y="Player") + 
+  theme_minimal() + theme(axis.text.x=element_text(angle = 45, vjust = 1, hjust = 1)) + scale_fill_manual("Legend", values = c("Joe Burrow" = "orange", "Dak Prescott" = "dark blue")) +
+  theme(
+    plot.title = element_text(size = 16, face = "bold"),
+    axis.title = element_text(size = 10), 
+    plot.subtitle = element_text(size=12), 
+    panel.grid.minor = element_blank() 
+  )
+```
+If we keep going further....
+
+```{r message=FALSE, warning=FALSE, echo=FALSE}
+Fortyplus  <- NFLQBackPlayers %>%
+  select(Player, `40+`) %>% 
+arrange(desc(`40+`))
+```
+```{r message=FALSE, warning=FALSE, echo=FALSE}
+ggplot(Fortyplus, aes(x=`40+`, weight=`40+`, fill=Player) ) + 
+  geom_bar(data= Fortyplus, aes(x=reorder(Player, `40+`), weight= `40+`)) +
+   labs(title="Joe Burrow continuing to prove he deserves the title", 
+       subtitle="Finally can see a larger spread between Joe Burrow and Dak Prescott",
+       x="Quarterbacks",
+       y="40+ yard Completions", 
+       caption="Source: Sports-Reference.com | By Ashley Beckman", x="40+ yards", y="Player") + 
+  theme_minimal() + theme(axis.text.x=element_text(angle = 45, vjust = 1, hjust = 1)) + scale_fill_manual("Legend", values = c("Joe Burrow" = "orange", "Dak Prescott" = "dark blue")) +
+  theme(
+    plot.title = element_text(size = 16, face = "bold"),
+    axis.title = element_text(size = 10), 
+    plot.subtitle = element_text(size=12), 
+    panel.grid.minor = element_blank() 
+  )
+```
+
+Another aspect we can look at is long pass completions and the spread between these two quarterbacks.  
+
+
+
+
+```{r message=FALSE, warning=FALSE, echo=FALSE}
+longcompletions <- NFLQBackPlayers %>% 
+  select(Player, Lng) %>% 
+  arrange(desc(Lng))
+```
+
+```{r message=FALSE, warning=FALSE, echo=FALSE}
+ longcompletions %>% 
+  gt() %>% 
+  cols_label(
+    Player = "Quarterback",
+    Lng = "Long Passes Completed"
+  ) %>%
+  tab_header(
+    title = "Joe Burrow seals the deal of Comeback Player of the Year",
+    subtitle = "Ending with significantly more long pass completions over Dak Prescott"
+  ) %>% tab_style(
+    style = cell_text(color = "black", weight = "bold", align = "left"),
+    locations = cells_title("title")
+  ) %>% tab_style(
+    style = cell_text(color = "black", align = "left"),
+    locations = cells_title("subtitle")
+  )  %>%
+  tab_source_note(
+    source_note = md("**By:** Ashley Beckman  |  **Source:** Sports ") 
+    ) %>% 
+  tab_style(
+    locations = cells_column_labels(columns = everything()),
+    style = list(
+      cell_borders(sides= "bottom", weight = px(3)),
+      cell_text(weight = "bold", size=12)
+  ) 
+) %>%  
+  opt_row_striping() %>% 
+  opt_table_lines("none") %>% 
+  tab_style(
+    style = list(
+    locations = cell_fill(color = "orange"),
+    cell_text(
+      color = "white")
+    ),
+  locations = cells_body(
+    rows = Player == "Joe Burrow"
+  )) %>% 
+   opt_row_striping() %>% 
+  opt_table_lines("none") %>% 
+  tab_style(
+    style = list(
+    locations = cell_fill(color = "blue"),
+    cell_text(
+      color = "white")
+    ),
+  locations = cells_body(
+    rows = Player == "Dak Prescott"
+  )) 
+```
+
+Now we have more of a spread with Joe Burrow completing more than 30 more long pass completions over Dak Prescott. 
+
+Now that we are getting a better idea of the statistical framework of the two quarterbacks, let's finally figure out if the touchdown to interception ratio may have played a role in this decision?
+
+
+
+
+```{r message=FALSE, warning=FALSE, echo=FALSE}
+margin <- NFLQBackPlayers %>% 
+  group_by(Player, TD, INT) 
+
+```
+
+```{r message=FALSE, warning=FALSE, echo=FALSE}
+ggplot()+
+  geom_dumbbell(
+    data = margin,
+    aes(y= Player, x=TD, xend=INT),
+size = 2,
+    colour = "grey",
+    colour_x = "green",
+    colour_xend = "red")+ 
+  labs(title="Who has the better Touchdown to Interception Ratio?", 
+       subtitle="Does this margin factor into the decision of Comeback Player of the Year? ", 
+       x="Interception:Touchdown Ratio", 
+       y="NFL Quarterbacks", 
+       caption="Source: Sports-Reference.com | By Ashley Beckman", x="Pass Yards", y="Player") + 
+  theme_minimal() + theme(axis.text.x=element_text(angle = 45, vjust = 1, hjust = 1)) + scale_fill_manual("Legend", values = c("Joe Burrow" = "orange", "Dak Prescott" = "dark blue")) +
+  theme(
+    plot.title = element_text(size = 16, face = "bold"),
+    axis.title = element_text(size = 10), 
+    plot.subtitle = element_text(size=12), 
+    panel.grid.minor = element_blank() 
+    ) 
+
+```
+
+Dak Prescott threw a franchise record for most touchdowns passes in a single season with 37 completed and only threw 10 interceptions. Joe Burrow on the other hand fell short with only 34 touchdown passes and threw 14 interceptions…
+
+Which begs the question of why did Joe Burrow win? There are many more factors than passing yards, first downs and touchdown/interception ratio that come into play when determining Comeback Player of the Year such as specific details of recovery and player status. Dak Prescott is well known athlete in the league and has made a name for himself, Joe Burrow is only in his second professional season. Following his speedy recovery, he dominated the season, leading the Bengals all the way to Super Bowl LVI. This is one prominent factor because of the significance of history being made and that Joe led his team to the Super Bowl and Dak did not. 
+
+NOTE that the code used in this website can be found here
+
+
+
