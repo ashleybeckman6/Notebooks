@@ -1,0 +1,593 @@
+---
+title: 'Are the Dallas Cowboys ever going to win another Super Bowl and secure a sixth
+  ring? '
+author: Ashley Beckman
+date: '2022-04-29'
+slug: are-the-dallas-cowboys-ever-going-to-win-another-super-bowl-and-secure-a-sixtth-ring
+categories: []
+tags: []
+---
+
+
+Are the Dallas Cowboys content with their five rings or will they take advantage of the off season and have the chance to compete in Super Bowl LVII? The Dallas Cowboys stand amongst other top ranked NFL teams regarding Super Bowl rings, falling just one short from the six rings of the Patriots and Steelers. Can they tie for first and secure another Super Bowl ring this upcoming season? 
+
+The Dallas Cowboys have not won a Super Bowl this century … The last time being in the 1995 season.
+
+Have they been playing just as well in recent seasons as they were back when they were winning Super Bowls?? The DraftKings Sportsbook states the Dallas Cowboys have +1400 odds to win the 2023 Super Bowl. How can that be possible?
+
+In recent years, the Cowboys have been good but never great… So let’s take a look at a few different areas in the seasons to see if they stand a chance.
+
+First, let's put the previous five seasons and the Super Bowl win seasons in the same place so we can better compare.
+
+
+```{r message=FALSE, warning=FALSE, echo=FALSE}
+library(tidyverse)
+library(rvest)
+library(ggbump)
+library(gt)
+library(ggrepel)
+library(ggplot2)
+library(ggbeeswarm)
+library(waffle)
+library(scales)
+library(cowplot)
+```
+
+```{r message=FALSE, warning=FALSE, echo=FALSE}
+allseason <- read_csv("nflseasons.csv") %>% rename(PassingTD = PassindTD)
+```
+
+
+```{r message=FALSE, warning=FALSE, echo=FALSE}
+SuperBowlYears <-allseason %>% 
+    filter(Tm == "Dallas Cowboys") %>%filter(Season == 1995 | Season == 1993 | Season == 1992 | Season == 1977 | Season == 1971)
+
+PastFiveSeasons <- allseason %>% 
+  filter(Tm == "Dallas Cowboys") %>% filter(Season == 2021 | Season == 2020 | Season == 2019 | Season == 2018 | Season == 2017)
+```
+
+```{r message=FALSE, warning=FALSE, echo=FALSE}
+Comparison <- allseason %>% 
+  select(Rk,Tm,PF,Yds,Season) %>% 
+    filter(Tm == "Dallas Cowboys") %>% filter(Season == 1995 | Season == 1993 | Season == 1992 | Season == 1977 | Season == 1971 | Season == 2021 | Season == 2020 | Season == 2019 | Season == 2018 | Season == 2017) %>% 
+    arrange(desc(PF))
+```
+```{r message=FALSE, warning=FALSE, echo=FALSE}
+Comparison %>%  
+  gt() %>% 
+cols_label(
+    Rk = "Rank",
+    Season = "Season",
+    Tm = "Team",
+    PF = "Points per team",
+    Yds = "Total Yards"
+  ) %>%
+  tab_header(
+    title = "Cowboys Super Bowl seasons compared to their past 5 seasons",
+    subtitle = "Which season did they score the most points? Can total yards also be a factor?"
+  ) %>% 
+  tab_style(
+    style = cell_text(color = "black", weight = "bold", align = "left"),
+    locations = cells_title("title")
+  ) %>% tab_style(
+    style = cell_text(color = "black", align = "left"),
+    locations = cells_title("subtitle")
+  )  %>%
+  tab_source_note(
+    source_note = md("**By:** Ashley Beckman  |  **Source:** Sports Reference") 
+    ) %>% 
+  tab_style(
+    locations = cells_column_labels(columns = everything()),
+    style = list(
+      cell_borders(sides= "bottom", weight = px(3)),
+      cell_text(weight = "bold", size=12)
+  ) 
+)%>%  
+  opt_row_striping() %>% 
+  opt_table_lines("none") %>% 
+  tab_style(
+    style = list(
+    locations = cell_fill(color = "#0B0F5F"),
+    cell_text(
+      color = "white")
+    ),
+  locations = cells_body(
+    rows = Season == "1995"
+  ))%>%  
+  opt_row_striping() %>% 
+  opt_table_lines("none") %>% 
+  tab_style(
+    style = list(
+    locations = cell_fill(color ="#0B0F5F"),
+    cell_text(
+      color = "white")
+    ),
+  locations = cells_body(
+    rows = Season == "1993"
+  ))%>%  
+  opt_row_striping() %>% 
+  opt_table_lines("none") %>% 
+  tab_style(
+    style = list(
+    locations = cell_fill(color = "#0B0F5F"),
+    cell_text(
+      color = "white")
+    ),
+  locations = cells_body(
+    rows = Season == "1992"
+  ))%>%  
+  opt_row_striping() %>% 
+  opt_table_lines("none") %>% 
+  tab_style(
+    style = list(
+    locations = cell_fill(color = "#0B0F5F"),
+    cell_text(
+      color = "white")
+    ),
+  locations = cells_body(
+    rows = Season == "1977"
+  ))%>%  
+  opt_row_striping() %>% 
+  opt_table_lines("none") %>% 
+  tab_style(
+    style = list(
+    locations = cell_fill(color = "#0B0F5F"),
+    cell_text(
+      color = "white")
+    ),
+  locations = cells_body(
+    rows = Season == "1971"
+  ))%>% 
+   opt_row_striping() %>% 
+  opt_table_lines("none") %>% 
+  tab_style(
+    style = list(
+    locations = cell_fill(color = "#89A4CE"),
+    cell_text(
+      color = "white")
+    ),
+  locations = cells_body(
+    rows = Season == "2021"
+  )) %>% 
+   opt_row_striping() %>% 
+  opt_table_lines("none") %>% 
+  tab_style(
+    style = list(
+    locations = cell_fill(color = "#89A4CE"),
+    cell_text(
+      color = "white")
+    ),
+  locations = cells_body(
+    rows = Season == "2020"
+  ))%>% 
+   opt_row_striping() %>% 
+  opt_table_lines("none") %>% 
+  tab_style(
+    style = list(
+    locations = cell_fill(color = "#89A4CE"),
+    cell_text(
+      color = "white")
+    ),
+  locations = cells_body(
+    rows = Season == "2019"
+  )) %>% 
+   opt_row_striping() %>% 
+  opt_table_lines("none") %>% 
+  tab_style(
+    style = list(
+    locations = cell_fill(color = "#89A4CE"),
+    cell_text(
+      color = "white")
+    ),
+  locations = cells_body(
+    rows = Season == "2018"
+  )) %>% 
+   opt_row_striping() %>% 
+  opt_table_lines("none") %>% 
+  tab_style(
+    style = list(
+    locations = cell_fill(color = "#89A4CE"),
+    cell_text(
+      color = "white")
+    ),
+  locations = cells_body(
+    rows = Season == "2017"
+  ))
+```
+The Cowboys scored more points in the 2021 season, with more than 150 more points than the 1995 Super Bowl win season. 
+
+Now, we can look at if the Cowboys passing or rushing game was more beneficial. 
+```{r message=FALSE, warning=FALSE, echo=FALSE}
+TDPassing <- allseason %>% 
+  select(Rk,Tm,PassingTD,RushingTD,Season) %>% 
+    filter(Tm == "Dallas Cowboys") %>% filter(Season == 1995 | Season == 1993 | Season == 1992 | Season == 1977 | Season == 1971 | Season == 2021 | Season == 2020 | Season == 2019 | Season == 2018 | Season == 2017) %>% 
+  arrange(desc(PassingTD))
+```
+```{r message=FALSE, warning=FALSE, echo=FALSE}
+TDPassing %>% 
+  gt() %>% 
+cols_label(
+    Rk = "Rank",
+    Season = "Season",
+    Tm = "Team",
+    PassingTD = "Passing Touchdowns",
+    RushingTD = "RushingTouchdowns"
+  ) %>%
+  tab_header(
+    title = "The Cowboys threw for more passing touchdowns in recent seasons" ,
+    subtitle = "How much do passing touchdowns matter in the season outcome? "
+  ) %>% tab_style(
+    style = cell_text(color = "black", weight = "bold", align = "left"),
+    locations = cells_title("title")
+  ) %>% tab_style(
+    style = cell_text(color = "black", align = "left"),
+    locations = cells_title("subtitle")
+  )  %>%
+  tab_source_note(
+    source_note = md("**By:** Ashley Beckman  |  **Source:** Sports Reference") 
+    ) %>% 
+  tab_style(
+    locations = cells_column_labels(columns = everything()),
+    style = list(
+      cell_borders(sides= "bottom", weight = px(3)),
+      cell_text(weight = "bold", size=12)
+  ) 
+)%>%  
+  opt_row_striping() %>% 
+  opt_table_lines("none") %>% 
+  tab_style(
+    style = list(
+    locations = cell_fill(color = "#0B0F5F"),
+    cell_text(
+      color = "white")
+    ),
+  locations = cells_body(
+    rows = Season == "1995"
+  ))%>%  
+  opt_row_striping() %>% 
+  opt_table_lines("none") %>% 
+  tab_style(
+    style = list(
+      locations = cell_fill(color = "#0B0F5F"),
+    cell_text(
+      color = "white")
+    ),
+  locations = cells_body(
+    rows = Season == "1993"
+  ))%>%  
+  opt_row_striping() %>% 
+  opt_table_lines("none") %>% 
+  tab_style(
+    style = list(
+    locations = cell_fill(color = "#0B0F5F"),
+    cell_text(
+      color = "white")
+    ),
+  locations = cells_body(
+    rows = Season == "1992"
+  ))%>%  
+  opt_row_striping() %>% 
+  opt_table_lines("none") %>% 
+  tab_style(
+    style = list(
+    locations = cell_fill(color = "#0B0F5F"),
+    cell_text(
+      color = "white")
+    ),
+  locations = cells_body(
+    rows = Season == "1977"
+  ))%>%  
+  opt_row_striping() %>% 
+  opt_table_lines("none") %>% 
+  tab_style(
+    style = list(
+    locations = cell_fill(color = "#0B0F5F"),
+    cell_text(
+      color = "white")
+    ),
+  locations = cells_body(
+    rows = Season == "1971"
+  ))%>% 
+   opt_row_striping() %>% 
+  opt_table_lines("none") %>% 
+  tab_style(
+    style = list(
+    locations = cell_fill(color = "#89A4CE"),
+    cell_text(
+      color = "white")
+    ),
+  locations = cells_body(
+    rows = Season == "2021"
+  )) %>% 
+   opt_row_striping() %>% 
+  opt_table_lines("none") %>% 
+  tab_style(
+    style = list(
+    locations = cell_fill(color = "#89A4CE"),
+    cell_text(
+      color = "white")
+    ),
+  locations = cells_body(
+    rows = Season == "2020"
+  ))%>% 
+   opt_row_striping() %>% 
+  opt_table_lines("none") %>% 
+  tab_style(
+    style = list(
+    locations = cell_fill(color = "#89A4CE"),
+    cell_text(
+      color = "white")
+    ),
+  locations = cells_body(
+    rows = Season == "2019"
+  )) %>% 
+   opt_row_striping() %>% 
+  opt_table_lines("none") %>% 
+  tab_style(
+    style = list(
+    locations = cell_fill(color = "#89A4CE"),
+    cell_text(
+      color = "white")
+    ),
+  locations = cells_body(
+    rows = Season == "2018"
+  )) %>% 
+   opt_row_striping() %>% 
+  opt_table_lines("none") %>% 
+  tab_style(
+    style = list(
+    locations = cell_fill(color = "#89A4CE"),
+    cell_text(
+      color = "white")
+    ),
+  locations = cells_body(
+    rows = Season == "2017"
+  ))
+```
+
+```{r message=FALSE, warning=FALSE, echo=FALSE}
+TDRushing <- allseason %>% 
+  select(Rk,Tm,PassingTD,RushingTD,Season) %>% 
+    filter(Tm == "Dallas Cowboys") %>% filter(Season == 1995 | Season == 1993 | Season == 1992 | Season == 1977 | Season == 1971 | Season == 2021 | Season == 2020 | Season == 2019 | Season == 2018 | Season == 2017) %>% 
+    arrange(desc(RushingTD))
+```
+```{r message=FALSE, warning=FALSE, echo=FALSE}
+TDRushing %>% 
+  gt() %>% 
+cols_label(
+    Rk = "Rank",
+    Season = "Season",
+    Tm = "Team",
+    PassingTD = "Passing Touchdowns",
+    RushingTD = "RushingTouchdowns"
+  ) %>%
+  tab_header(
+    title = "Cowboys running the ball a lot more in Super Bowl winning seasons.",
+    subtitle = "Is running the ball the reason they won Super Bowls back then?"
+  ) %>% tab_style(
+    style = cell_text(color = "black", weight = "bold", align = "left"),
+    locations = cells_title("title")
+  ) %>% tab_style(
+    style = cell_text(color = "black", align = "left"),
+    locations = cells_title("subtitle")
+  )  %>%
+  tab_source_note(
+    source_note = md("**By:** Ashley Beckman  |  **Source:** Sports Reference") 
+    ) %>% 
+  tab_style(
+    locations = cells_column_labels(columns = everything()),
+    style = list(
+      cell_borders(sides= "bottom", weight = px(3)),
+      cell_text(weight = "bold", size=12)
+  ) 
+)%>%  
+  opt_row_striping() %>% 
+  opt_table_lines("none") %>% 
+  tab_style(
+    style = list(
+    locations = cell_fill(color = "#0B0F5F"),
+    cell_text(
+      color = "white")
+    ),
+  locations = cells_body(
+    rows = Season == "1995"
+  ))%>%  
+  opt_row_striping() %>% 
+  opt_table_lines("none") %>% 
+  tab_style(
+    style = list(
+    locations = cell_fill(color = "#0B0F5F"),
+    cell_text(
+      color = "white")
+    ),
+  locations = cells_body(
+    rows = Season == "1993"
+  ))%>%  
+  opt_row_striping() %>% 
+  opt_table_lines("none") %>% 
+  tab_style(
+    style = list(
+    locations = cell_fill(color = "#0B0F5F"),
+    cell_text(
+      color = "white")
+    ),
+  locations = cells_body(
+    rows = Season == "1992"
+  ))%>%  
+  opt_row_striping() %>% 
+  opt_table_lines("none") %>% 
+  tab_style(
+    style = list(
+    locations = cell_fill(color = "#0B0F5F"),
+    cell_text(
+      color = "white")
+    ),
+  locations = cells_body(
+    rows = Season == "1977"
+  ))%>%  
+  opt_row_striping() %>% 
+  opt_table_lines("none") %>% 
+  tab_style(
+    style = list(
+    locations = cell_fill(color = "#0B0F5F"),
+    cell_text(
+      color = "white")
+    ),
+  locations = cells_body(
+    rows = Season == "1971"
+  ))%>% 
+   opt_row_striping() %>% 
+  opt_table_lines("none") %>% 
+  tab_style(
+    style = list(
+    locations = cell_fill(color = "#89A4CE"),
+    cell_text(
+      color = "white")
+    ),
+  locations = cells_body(
+    rows = Season == "2021"
+  )) %>% 
+   opt_row_striping() %>% 
+  opt_table_lines("none") %>% 
+  tab_style(
+    style = list(
+    locations = cell_fill(color = "#89A4CE"),
+    cell_text(
+      color = "white")
+    ),
+  locations = cells_body(
+    rows = Season == "2020"
+  ))%>% 
+   opt_row_striping() %>% 
+  opt_table_lines("none") %>% 
+  tab_style(
+    style = list(
+    locations = cell_fill(color = "#89A4CE"),
+    cell_text(
+      color = "white")
+    ),
+  locations = cells_body(
+    rows = Season == "2019"
+  )) %>% 
+   opt_row_striping() %>% 
+  opt_table_lines("none") %>% 
+  tab_style(
+    style = list(
+    locations = cell_fill(color = "#89A4CE"),
+    cell_text(
+      color = "white")
+    ),
+  locations = cells_body(
+    rows = Season == "2018"
+  )) %>% 
+   opt_row_striping() %>% 
+  opt_table_lines("none") %>% 
+  tab_style(
+    style = list(
+    locations = cell_fill(color = "#89A4CE"),
+    cell_text(
+      color = "white")
+    ),
+  locations = cells_body(
+    rows = Season == "2017"
+  ))
+```
+
+The Cowboys ran the ball a lot more in their Super Bowl ring seasons. Could this be the reasoning behind their success?
+
+Recently, the Cowboys are throwing the ball more, so we can take their passing completion percentages and see which season they threw their best. 
+
+
+```{r message=FALSE, warning=FALSE, echo=FALSE}
+CompletionAttemptPercentageSB <- allseason %>% 
+    filter(Tm == "Dallas Cowboys") %>% filter(Season == 1995 | Season == 1993 | Season == 1992 | Season == 1977 | Season == 1971) %>% 
+  mutate(CompPassPercentage = (PassingCmp / PassingAtt)*100) %>% 
+  arrange(desc(CompPassPercentage))
+    
+CompletionAttemptPercentageRecent <- allseason %>% 
+    filter(Tm == "Dallas Cowboys") %>% filter(Season == 2021 | Season == 2020 | Season == 2019 | Season == 2018 | Season == 2017) %>% 
+   mutate(CompPassPercentage = (PassingCmp / PassingAtt)*100) %>% 
+  arrange(desc(CompPassPercentage))
+    
+AllCowboys <- allseason %>% 
+    filter(Tm == "Dallas Cowboys") %>% 
+   mutate(CompPassPercentage = (PassingCmp / PassingAtt)*100)
+
+
+RecentSn <-allseason %>% 
+filter(Tm == "Dallas Cowboys") %>% filter(Season == 2021) %>% 
+   mutate(CompPassPercentage = (PassingCmp / PassingAtt)*100)
+
+SbWin <-allseason %>% 
+filter(Tm == "Dallas Cowboys") %>% filter(Season == 1993) %>% 
+   mutate(CompPassPercentage = (PassingCmp / PassingAtt)*100)
+
+```
+
+
+
+
+```{r message=FALSE, warning=FALSE, echo=FALSE}
+ggplot() + 
+  geom_bar(data=AllCowboys, aes(x=Season, weight=CompPassPercentage),
+  fill = "#DDE1E9") + 
+  geom_bar(data=CompletionAttemptPercentageSB, aes(x=Season, weight=CompPassPercentage), fill="#0B0F5F") + 
+   geom_bar(data=SbWin, aes(x=Season, weight=CompPassPercentage), fill="#DF4958") + 
+  geom_bar(data=CompletionAttemptPercentageRecent, aes(x=Season, weight=CompPassPercentage), fill="#89A4CE") + 
+  geom_bar(data=RecentSn, aes(x=Season, weight=CompPassPercentage), fill="#DF4958") +
+  labs(title="Is passing the ball actually working for the Cowboys?", subtitle="They are running the ball less, but are they completing their passes?", caption="Source: Sports-Reference.com | By Ashley Beckman", x="", y="Passing Completion Percentage") + 
+  theme_minimal() + theme(axis.text.x=element_text(angle = 45, vjust = 1, hjust = 1)) +
+  theme(
+    plot.title = element_text(size = 16, face = "bold"),
+    axis.title = element_text(size = 10), 
+    plot.subtitle = element_text(size=12), 
+    plot.title.position = "plot",
+    panel.grid.minor = element_blank() 
+    ) 
+```
+The Cowboys best completion passing percentage was this past season. However, they did not make it to the Super Bowl, unlike in 1993, when they had a slightly lower passing completion percentage.
+
+The final layer to peel back would be how penalties and yards lost due to penalties can impact a single game, let alone affect the outcome of a season.
+
+```{r message=FALSE, warning=FALSE, echo=FALSE}
+Penalties <- c("1995"= 90, "2021"= 127)
+PenaltyYards <- c("1995 Penalty Yards"= 69.5, "2021 Penalty Yards"= 110.3)
+
+iron(
+waffle(
+        Penalties, 
+        rows = 10, 
+        xlab="1 square = 1 penalty ", 
+        colors = c("#0B0F5F", "#89A4CE")
+) +
+labs(title="More penalties for the Cowboys in 2021 than in 1995", subtitle="Do penalties play a factor in the outcome of the season?") +
+  theme(
+    plot.title = element_text(size = 16, face = "bold"),
+    axis.title = element_text(size = 10), 
+    plot.subtitle = element_text(size=12), 
+    panel.grid.minor = element_blank() 
+    ) , 
+waffle(
+        PenaltyYards, 
+        rows = 10, 
+        xlab="1 square = 10 penalty yards ", 
+        colors = c("#0B0F5F", "#89A4CE")
+) + 
+labs(subtitle="Penalty yards can be a game changer ", caption="Source: Sports-Reference.com | By Ashley Beckman") +
+  theme(
+    plot.title = element_text(size = 16, face = "bold"),
+    axis.title = element_text(size = 10), 
+    plot.subtitle = element_text(size=12), 
+    plot.title.position = "plot",
+    panel.grid.minor = element_blank() 
+    ) 
+)
+```
+
+The Cowboys seem to be right where they need to be, but can never push to the finish. The recent seasons have been a prime example of this teams consistent fight to compete in the Super Bowl. 
+
+How close the Cowboys were this past season to playing like they were back when they were winning Super Bowls gives hope for this upcoming season. They need a great season and 2023 could be their year to secure the sixth ring.
+Only time will tell if they land in Super Bowl LVII. 
+
+**Note that the data used in this article can be found here 
+
